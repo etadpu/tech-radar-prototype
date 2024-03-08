@@ -1,4 +1,5 @@
 let data;
+let dataPoints = [];
 const sizeX = 800;
 const sizeY = 800;
 
@@ -12,6 +13,10 @@ function preload(){
 function setup() {
     createCanvas(sizeX, sizeY);
     colorMode(HSB, 360, 100, 100, 100);
+    // Make an array of all the data points contained in the global variable data
+    for (var member in data) {
+        dataPoints.push(new DataPoint(data[member].angle, data[member].distance, data[member].name, data[member].url, width / 2, height / 2, 300));
+    }
   }
   
 function draw() {
@@ -26,8 +31,6 @@ function draw() {
     // Radius of the data points dots that represent the specific tech in the radar
     const dataPointRadius = 12;
     // Text offset
-    const textXOffset = 30;
-    const textYOffset = -10;
     const textConnectivityLabelXOffset = 140;
     const textConnectivityLabelYOffset = 150;
     const textSolutionLabelXOffset = 50;
@@ -56,7 +59,7 @@ function draw() {
         
     );
     ellipse(centerX, centerY, scalar * radiusOuter * 2, scalar * radiusOuter * 2);
-
+    
     // Draw outer radar background lines
     ellipse(centerX, centerY, scalar * radiusOuter * 2, scalar * radiusOuter * 2);
     // Draw middle radar background lines
@@ -68,43 +71,63 @@ function draw() {
     // Draw radar vertical line
     line(centerX, 0, centerX, height);
 
-     // Pie chart labels
-     fill(40);
-     stroke(255);
-     strokeWeight(1);
-     textStyle(BOLD);
-     textSize(20);
-     text("Connectivity", textConnectivityLabelXOffset, textConnectivityLabelYOffset);
-     text("Solutions", scalar * radiusOuter * 2 + textSolutionLabelXOffset, scalar * radiusOuter * 2 + textSolutionLabelYOffset);
-     text("Experience", scalar * radiusOuter * 2 + textExperienceLabelXOffset, textExperienceLabelYOffset);
-     text("Management", textManagementLabelXOffset, scalar * radiusOuter * 2 + textManagementLabelYOffset);
-     // Text settings
-     textSize(15);
-     fill(20);
-     stroke(255);
-     strokeWeight(2);
-     textAlign(CENTER);
-     textStyle(NORMAL);
+    // Pie chart labels
+    fill(40);
+    stroke(255);
+    strokeWeight(1);
+    textStyle(BOLD);
+    textSize(20);
+    text("Connectivity", textConnectivityLabelXOffset, textConnectivityLabelYOffset);
+    text("Solutions", scalar * radiusOuter * 2 + textSolutionLabelXOffset, scalar * radiusOuter * 2 + textSolutionLabelYOffset);
+    text("Experience", scalar * radiusOuter * 2 + textExperienceLabelXOffset, textExperienceLabelYOffset);
+    text("Management", textManagementLabelXOffset, scalar * radiusOuter * 2 + textManagementLabelYOffset);
+    // Text settings
+    textSize(15);
+    fill(20);
+    stroke(255);
+    strokeWeight(2);
+    textAlign(CENTER);
+    textStyle(NORMAL);
     
 
-    // Draw the data points
-    // for (let i = 0; i < data.length; i++) {
-    //     let x = centerX + cos(radians(data[i].angle)) * scalar * data[i].distance;
-    //     let y = centerY + sin(radians(data[i].angle)) * scalar * data[i].distance;
-    //     ellipse(x, y, dataPointRadius, dataPointRadius);
-    // } 
+    // Run through the data points
+    for (let i = 0; i < dataPoints.length; i++) {
+        // Draw the data points
+        dataPoints[i].drawDataPoint();
+        // Check if mouse is over the data point,
+        // if true, display the data point info
+        // if mouse is clicked, open the url of the data point
+        if(dataPoints[i].isMouseOver()){
+            fill(0, 0, 0, 100);
+            stroke(0, 0, 0, 100);
+            strokeWeight(1);
+            textAlign(CENTER);
+            textStyle(BOLD);
+            textSize(20);
+            // text(dataPoints[i].name, mouseX, mouseY - 20);
+            textSize(15);
+            textStyle(NORMAL);
+            text("--Some dummy text--\n--Some dummy text--\n--Some dummy text--\n--Some dummy text--\n--Some dummy text--\n", mouseX, mouseY);
+            stroke(255);
+            strokeWeight(2);
 
-    // Draw the data points
-    for (var member in data) {
-        let x = centerX + cos(radians(data[member].angle)) * scalar * data[member].distance;
-        let y = centerY + sin(radians(data[member].angle)) * scalar * data[member].distance;
-        fill(100, 100, 0, 100); // White color with 0 alpha (completely transparent)
-        ellipse(x, y, dataPointRadius, dataPointRadius);
-        fill(20);
-        text(data[member].name, x + textXOffset, y + textYOffset);
+            if(mouseIsPressed){
+                window.open(dataPoints[i].url, '_blank');
+            }
+        }
     }
 
+    // Draw the data points
+    // for (var member in data) {
+    //     let x = centerX + cos(radians(data[member].angle)) * scalar * data[member].distance;
+    //     let y = centerY + sin(radians(data[member].angle)) * scalar * data[member].distance;
+    //     fill(100, 100, 0, 100); // White color with 0 alpha (completely transparent)
+    //     ellipse(x, y, dataPointRadius, dataPointRadius);
+    //     fill(20);
+    //     text(data[member].name, x + textXOffset, y + textYOffset);
+    // }
 
+    // mouseOverDataPoint(mouseX, mouseY, dataPointRadius);
 }
 
 function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE){
@@ -124,3 +147,63 @@ function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE){
     drawingContext.shadowColor = color(230, 30, 18, 100);
     // drawingContext.shadowColor = color(0,0,0, 100);
   }
+
+// This function will check if mouse is within a given circle
+// function mouseOverDataPoint(mouseX, mouseY, dataPointRadius) {
+//     for (var member in data) {
+//         let x = width / 2 + cos(radians(data[member].angle)) * 300 * data[member].distance;
+//         let y = height / 2 + sin(radians(data[member].angle)) * 300 * data[member].distance;
+//         let d = dist(mouseX, mouseY, x, y);
+//         if (d < dataPointRadius) {
+//             fill(0, 0, 0, 100);
+//             stroke(0, 0, 0, 100);
+//             strokeWeight(1);
+//             textAlign(CENTER);
+//             textStyle(BOLD);
+//             textSize(20);
+//             text(data[member].name, mouseX, mouseY - 20);
+//             textSize(15);
+//             textStyle(NORMAL);
+//             text("Experience: " + data[member].experience, mouseX, mouseY);
+//             text("Connectivity: " + data[member].connectivity, mouseX, mouseY + 20);
+//             text("Solutions: " + data[member].solutions, mouseX, mouseY + 40);
+//             text("Management: " + data[member].management, mouseX, mouseY + 60);
+//             stroke(255);
+//             strokeWeight(2);
+//         }
+//     }
+// }
+
+// Class data points that has its own position based on the angle and distance,
+// and its own name and url link to the tech
+class DataPoint {
+    constructor(angle, distance, name, url, centerX, centerY, scalar) {
+        this.angle = angle;
+        this.distance = distance;
+        this.name = name;
+        this.url = url;
+        this.dataPointRadius = 12;
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.textXOffset = 30;
+        this.textYOffset = -10;
+        this.scalar = scalar;
+    };
+    // Draw the data point
+    drawDataPoint(){
+        var x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
+        var y = this.centerY + sin(radians(this.angle)) * this.scalar * this.distance;
+        fill(100, 100, 0, 100); // White color with 0 alpha (completely transparent)
+        ellipse(x, y, this.dataPointRadius, this.dataPointRadius);
+        fill(20);
+        text(this.name, x + this.textXOffset, y + this.textYOffset);
+    }
+    // Check if mouse is over the data point
+    isMouseOver(){
+        let x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
+        let y = this.centerY + sin(radians(this.angle)) * this.scalar * this.distance;
+        let d = dist(mouseX, mouseY, x, y);
+        return d < this.dataPointRadius ? true : false;
+    } 
+}
+

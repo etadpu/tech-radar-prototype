@@ -1,16 +1,19 @@
 [
     {
-        "name": "AI chat bot",
+        "name": "Artificiell intelligens",
+        "url": "https://blogg.knowit.se/ai-och-digitaliseringens-mojligheter",
         "distance": 0.2,
         "angle": 70
     },
     {
-        "name": "Jespperino",
+        "name": "Cybersäkerhet",
+        "url": "https://blogg.knowit.se/ransomware-att-vanta-sig-det-ovantade",
         "distance": 0.5,
         "angle": 110
     },
     {
-        "name": "Jeppson",
+        "name": "Drönare",
+        "url": "https://blogg.knowit.se/dronare-hotet-fran-ovan",
         "distance": 0.9,
         "angle": 250
     }
