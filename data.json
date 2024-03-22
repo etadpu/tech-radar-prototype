@@ -3,13 +3,13 @@
         "name": "Artificiell intelligens",
         "url": "https://blogg.knowit.se/ai-och-digitaliseringens-mojligheter",
         "distance": 0.2,
-        "angle": 70
+        "angle": 340
     },
     {
         "name": "Cybersäkerhet",
         "url": "https://blogg.knowit.se/ransomware-att-vanta-sig-det-ovantade",
         "distance": 0.5,
-        "angle": 110
+        "angle": 300
     },
     {
         "name": "Drönare",

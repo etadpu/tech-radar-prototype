@@ -1,18 +1,10 @@
 let data;
 let dataPoints = [];
-let distanceAngle = 90;     // how far (in degrees) text will go
-
-
-
-// const sizeX = 800;
-// const sizeY = 800;
 
 function preload(){
   // Read the input from the file data.json
   data = loadJSON('data.json');
 }
-
-
 
 function setup() {
     createCanvas(windowWidth / 2, windowHeight);
@@ -35,24 +27,17 @@ function setup() {
     // let blue = color(55, 43, 197);// Blue
     // let black = color(11, 11, 38);// Knowit Black
     
-    //// Constant values ////
+    // Center of the radar
     const centerX = width / 2;
     const centerY = height / 2;
+    // Scalar used for the radar dimensions
     const scalar = Math.min(width, height)/4;
+
     // Radar background lines circles
     const radiusInner = 1/3;
     const radiusMiddle = 2/3;
     const radiusOuter = 1;
-    // Radius of the data points dots that represent the specific tech in the radar
-    // Text offset
-    // const textConnectivityLabelXOffset = 140;
-    // const textConnectivityLabelYOffset = 150;
-    // const textSolutionLabelXOffset = 50;
-    // const textSolutionLabelYOffset = 50;
-    // const textExperienceLabelXOffset = 50;
-    // const textExperienceLabelYOffset = 150;
-    // const textManagementLabelXOffset = 130;
-    // const textManagementLabelYOffset = 50;
+    const departmentTextOffset = 15;
 
     // Draw quarter circle 1
     stroke(255);
@@ -71,13 +56,12 @@ function setup() {
     // Draw quarter circle 4
     fill(1, 200, 200, 35);
     arc(centerX, centerY, scalar * radiusOuter * 2.5, scalar * radiusOuter * 2.5, 3 * PI / 2, 0, PIE);
-
-    //// Drawing default settings config ////
-    // Circles settings
+    
+    // Draw the radar overlay
     ellipseMode(CENTER);
     stroke(255);
     fill(255, 255, 255, 0); // White color with 0 alpha (completely transparent)
-
+    // Make it a green gradient color
     radialGradient(
         width/2, height/2, 0,//Start pX, pY, start circle radius
         width/2, height/2, scalar * 1.4 * radiusOuter,//End pX, pY, End circle radius
@@ -88,93 +72,29 @@ function setup() {
         color(0, 0, 255, 100), //Start color
     );
     
-    
     //// Draw the radar background circles ////
-    
     strokeWeight(2);
     stroke(50, 100);
+
     // Draw outer radar background circle
     ellipse(centerX, centerY, scalar * radiusOuter * 2, scalar * radiusOuter * 2);
+
     // Draw middle radar background circle
-    // stroke(0, 100);
     stroke(255, 100);
     ellipse(centerX, centerY, scalar * radiusMiddle * 2, scalar * radiusMiddle * 2);
+
     // Draw inner radar background circle
     ellipse(centerX, centerY, scalar * radiusInner * 2, scalar * radiusInner * 2);
 
     //// Draw the horizontal and vertical lines of the radar ////
     stroke(255, 100);
     strokeWeight(1);
+
     // Draw radar horizontal line
     line(0, centerY, width, centerY);
+
     // Draw radar vertical line
     line(centerX, 0, centerX, height);
-
-   
-
-    // Pie chart labels
-    // fill(40);
-    // stroke(255);
-    // strokeWeight(1);
-    // textStyle(BOLD);
-    // textSize(20);
-    // textAlign(CENTER);
-    // text("Connectivity", textConnectivityLabelXOffset, textConnectivityLabelYOffset);
-    // text("Solutions", scalar * radiusOuter * 2 + textSolutionLabelXOffset, scalar * radiusOuter * 2 + textSolutionLabelYOffset);
-    // text("Experience", scalar * radiusOuter * 2 + textExperienceLabelXOffset, textExperienceLabelYOffset);
-    // text("Management", textManagementLabelXOffset, scalar * radiusOuter * 2 + textManagementLabelYOffset);
-    // Text settings
-    // textSize(15);
-    // fill(20);
-    // stroke(255);
-    // strokeWeight(2);
-    // textAlign(CENTER);
-    // textStyle(NORMAL);
-    
-    /////////////////////////////////////////////
-    ////DRAW TEXT IN A CIRCLE, ugly as fuck/////
-    ///////////////////////////////////////////
-    // 'ytivitcennoC', 'ecneirepxE'
-    //let areas = ['ytivitcennoC', 'ecneirepxE', 'Solutions', 'Insight'];
-    // let areas = ['', '', 'Social & Business', 'Technologies'];
-    // push();
-    // translate(width/2, centerY + centerY/2);  
-
-    // let str = areas[2];
-    // let angleBetweenLetters = radians(distanceAngle) / (str.length*1.5);
-    // rotate(radians(0));
-    
-    // rotate(radians((distanceAngle*0.5) - (distanceAngle/(str.length/5))));
-    // for (let j=0; j<str.length; j++){
-    //   push();
-    //   rotate(j * angleBetweenLetters);                      // rotate to angle
-    //   translate(0,-scalar * radiusOuter - 30);              // and translate to edge of circle
-    //   fill(white);
-    //   noStroke();
-    //   textSize(radius/8);
-    //   text(str[j], 0,0);                                    // draw character at location
-    //   pop();
-    // }
-    // pop();
-    // push();
-    // translate(width/2, centerY + centerY/2);  
-
-    // str = areas[3];
-    // angleBetweenLetters = radians(distanceAngle) / (str.length*1.5);
-    // rotate(radians(280));
-    
-    // rotate(radians((distanceAngle*0.5) - (distanceAngle/(str.length/5))));
-    // for (let j=0; j<str.length; j++){
-    //   push();
-    //   rotate(j * angleBetweenLetters);   // rotate to angle
-    //   translate(0,-scalar * radiusOuter - 30);              // and translate to edge of circle
-    //   fill(white);
-    //   noStroke();
-    //   textSize(radius/8);
-    //   text(str[j], 0,0);                 // draw character at location
-    //   pop();
-    // }
-    // pop();
 
     // Draw and update the data points
     for (let i = 0; i < dataPoints.length; i++) {
@@ -182,76 +102,75 @@ function setup() {
         dataPoints[i].update(centerX, centerY, scalar);
         // Draw the data points
         dataPoints[i].drawDataPoint();
-        // Check if mouse is over the data point,
-        // if true, display the data point info
-        // if mouse is clicked, open the url of the data point
-        // if(dataPoints[i].isMouseOver()){
-        //     rectMode(CENTER);
-        //     fill(200);
-        //     stroke(2);
-        //     rect(mouseX, mouseY + 30, 150, 110, 10);
-
-        //     fill(0, 0, 0, 100);
-        //     stroke(0, 0, 0, 100);
-        //     strokeWeight(1);
-        //     textAlign(CENTER);
-        //     textStyle(BOLD);
-        //     textSize(20);
-        //     // text(dataPoints[i].name, mouseX, mouseY - 20);
-        //     textSize(15);
-        //     textStyle(NORMAL);
-        //     // textWrap(WORD);
-        //     text("Some dummy text.\nSome dummy text.\nSome dummy text.\nSome dummy text.\nSome dummy text.\n", mouseX, mouseY);
-        //     // stroke(255);
-        //     strokeWeight(2);
-
-            
-
-        //     if(mouseIsPressed){
-        //         window.open(dataPoints[i].url, '_blank');
-        //     }
-        // }
     }
 
-    // Draw mouse over text for the data points
+    // Draw mouse over text and thumbnail for the data points
     for (let i = 0; i < dataPoints.length; i++) {
-        // Update the scalar of the data points
-        // dataPoints[i].update(centerX, centerY, scalar);
-        // Draw the data points
-        // dataPoints[i].drawDataPoint();
-        // Check if mouse is over the data point,
-        // if true, display the data point info
-        // if mouse is clicked, open the url of the data point
         if(dataPoints[i].isMouseOver()){
             // Highlight the datapoint that is hovered over
             dataPoints[i].highLightDataPoint();
-            // Draw background overlay for the text
-            rectMode(CORNER);
-            fill(200);
-            stroke(2);
-            rect(mouseX - 7, mouseY + 30, 160, 110, 10);
-
-            fill(0, 0, 0, 100);
-            stroke(0, 0, 0, 100);
-            strokeWeight(1);
-            textAlign(LEFT);
-            textStyle(BOLD);
-            // textSize(20);
-            // text(dataPoints[i].name, mouseX, mouseY - 20);
-            textSize(15);
-            textStyle(NORMAL);
-            // textWrap(WORD);
-            text("ARTICLE\n\nSome dummy text.\nSome dummy text.\nSome dummy text.\n", mouseX, mouseY+50);
-            // stroke(255);
-            strokeWeight(2);
-
+            dataPoints[i].displayThumbnail(mouseX, mouseY);
+            // Redirect to the url of the data point is clicked
             if(mouseIsPressed){
                 window.open(dataPoints[i].url, '_blank');
             }
         }
     }
+
+    // Draw the outer pie chart labels for the departments
+    drawTextAlongArc("EXPERIENCE", width / 2, height / 2, scalar * radiusOuter + departmentTextOffset, 0 - PI / 4);
+    drawTextAlongArc("SOLUTIONS", width / 2, height / 2, scalar * radiusOuter + departmentTextOffset, 0 + PI / 8);
+    drawTextAlongArcReversed("CONNECTIVITY", width / 2, height / 2, scalar * radiusOuter + departmentTextOffset + 17, 0 - PI / 4.5);
+    drawTextAlongArcReversed("MANAGEMENT", width / 2, height / 2, scalar * radiusOuter + departmentTextOffset + 17, 0 - PI / 2);
 }
 
+function drawTextAlongArc(prompt, x, y, radius, startAngle) {
+    let charSpacing = 0.11; // Space between characters
+    let totalAngle = (prompt.length - 1) * charSpacing;
+  
+    for (let i = 0; i < prompt.length; i++) {
+        let char = prompt.charAt(i);
+        let angle = startAngle + charSpacing * i - totalAngle * 2;
+
+        let tx = x + radius * cos(angle);
+        let ty = y + radius * sin(angle);
+
+        push();
+        translate(tx, ty);
+        rotate(angle + HALF_PI); // Adjust rotation to make text upright
+        textSize(20);
+        textStyle(NORMAL);
+        textFont('Arial');
+        fill(20);
+        noStroke();
+        text(char, 0, 0);
+        pop();
+    }
+}
+
+function drawTextAlongArcReversed(prompt, x, y, radius, startAngle) {
+    let charSpacing = 0.11; // Space between characters
+    let totalAngle = (prompt.length - 1) * charSpacing;
+    
+    for (let i = prompt.length - 1; i >= 0; i--) {
+        let char = prompt.charAt(i);
+        let angle = startAngle + charSpacing * (prompt.length - 1 - i) + totalAngle * 2;
+
+        let tx = x + radius * cos(angle);
+        let ty = y + radius * sin(angle);
+
+        push();
+        translate(tx, ty);
+        rotate(angle + PI * 1.5); // Adjust rotation to make text upright
+        textSize(20);
+        textStyle(NORMAL);
+        textFont('Arial');
+        fill(20);
+        noStroke();
+        text(char, 0, 0);
+        pop();
+    }
+}
 
 function windowResized() {
     resizeCanvas(windowWidth / 2, windowHeight);
@@ -265,42 +184,8 @@ function radialGradient(sX, sY, sR, eX, eY, eR, colorS, colorE){
     gradient.addColorStop(1, colorE);
   
     drawingContext.fillStyle = gradient;
-  }
-  
-function shadow(){
-drawingContext.shadowOffsetX = 0;
-drawingContext.shadowOffsetY = 0;
-drawingContext.shadowBlur = 0;
-drawingContext.shadowColor = color(230, 30, 18, 100);
-// drawingContext.shadowColor = color(0,0,0, 100);
 }
-
-// This function will check if mouse is within a given circle
-// function mouseOverDataPoint(mouseX, mouseY, dataPointRadius) {
-//     for (var member in data) {
-//         let x = width / 2 + cos(radians(data[member].angle)) * 300 * data[member].distance;
-//         let y = height / 2 + sin(radians(data[member].angle)) * 300 * data[member].distance;
-//         let d = dist(mouseX, mouseY, x, y);
-//         if (d < dataPointRadius) {
-//             fill(0, 0, 0, 100);
-//             stroke(0, 0, 0, 100);
-//             strokeWeight(1);
-//             textAlign(CENTER);
-//             textStyle(BOLD);
-//             textSize(20);
-//             text(data[member].name, mouseX, mouseY - 20);
-//             textSize(15);
-//             textStyle(NORMAL);
-//             text("Experience: " + data[member].experience, mouseX, mouseY);
-//             text("Connectivity: " + data[member].connectivity, mouseX, mouseY + 20);
-//             text("Solutions: " + data[member].solutions, mouseX, mouseY + 40);
-//             text("Management: " + data[member].management, mouseX, mouseY + 60);
-//             stroke(255);
-//             strokeWeight(2);
-//         }
-//     }
-// }
-
+  
 // Class data points that has its own position based on the angle and distance,
 // and its own name and url link to the tech
 class DataPoint {
@@ -324,9 +209,13 @@ class DataPoint {
         fill(255, 255, 255, 100);
         ellipse(x, y, this.dataPointRadius, this.dataPointRadius);
         fill(20);
+        stroke(200);
+        strokeWeight(3);
+        textSize(15);
         text(this.name, x + this.textXOffset, y + this.textYOffset);
     }
 
+    // Highlight the data point marker (circle/dot)
     highLightDataPoint(){
         var x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
         var y = this.centerY + sin(radians(this.angle)) * this.scalar * this.distance;
@@ -335,6 +224,22 @@ class DataPoint {
         fill(20);
         text(this.name, x + this.textXOffset, y + this.textYOffset);
     }
+    displayThumbnail(mouseX, mouseY){
+         // Draw background overlay for the text
+         rectMode(CORNER);
+         fill(200);
+         stroke(2);
+         rect(mouseX - 7, mouseY + 30, 160, 110, 10);
+         fill(0, 0, 0, 100);
+         stroke(0, 0, 0, 100);
+         strokeWeight(1);
+         textAlign(LEFT);
+         textStyle(BOLD);
+         textSize(15);
+         textStyle(NORMAL);
+         text("ARTICLE\n\nSome dummy text.\nSome dummy text.\nSome dummy text.\n", mouseX, mouseY+50);
+         strokeWeight(2);
+    }
     // Check if mouse is over the data point
     isMouseOver(){
         let x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
@@ -342,6 +247,7 @@ class DataPoint {
         let d = dist(mouseX, mouseY, x, y);
         return d < this.dataPointRadius ? true : false;
     }
+    // Update the data parameters for the data points. This is needed when the window is resized.
     update(centerX, centerY, scalar){
         this.scalar = scalar;
         this.centerX = centerX;
