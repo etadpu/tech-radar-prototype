@@ -201,6 +201,7 @@ class DataPoint {
         this.textYOffset = scalar * -0.02;
         this.scalar = scalar;
     };
+    
     // Draw the data point
     drawDataPoint(){
         var x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
@@ -224,6 +225,8 @@ class DataPoint {
         fill(20);
         text(this.name, x + this.textXOffset, y + this.textYOffset);
     }
+
+    // Small window that will appear when hovering over the data point
     displayThumbnail(mouseX, mouseY){
          // Draw background overlay for the text
          rectMode(CORNER);
@@ -240,6 +243,7 @@ class DataPoint {
          text("ARTICLE\n\nSome dummy text.\nSome dummy text.\nSome dummy text.\n", mouseX, mouseY+50);
          strokeWeight(2);
     }
+
     // Check if mouse is over the data point
     isMouseOver(){
         let x = this.centerX + cos(radians(this.angle)) * this.scalar * this.distance;
@@ -247,6 +251,7 @@ class DataPoint {
         let d = dist(mouseX, mouseY, x, y);
         return d < this.dataPointRadius ? true : false;
     }
+
     // Update the data parameters for the data points. This is needed when the window is resized.
     update(centerX, centerY, scalar){
         this.scalar = scalar;

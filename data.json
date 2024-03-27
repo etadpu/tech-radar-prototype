@@ -1,20 +1,32 @@
 [
     {
-        "name": "Artificiell intelligens",
+        "name": "AI-digitalisering",
         "url": "https://blogg.knowit.se/ai-och-digitaliseringens-mojligheter",
-        "distance": 0.2,
+        "distance": 0.6,
         "angle": 340
     },
     {
-        "name": "Cybersäkerhet",
+        "name": "Ransomeware",
         "url": "https://blogg.knowit.se/ransomware-att-vanta-sig-det-ovantade",
         "distance": 0.5,
         "angle": 300
     },
     {
-        "name": "Drönare",
-        "url": "https://blogg.knowit.se/dronare-hotet-fran-ovan",
-        "distance": 0.9,
-        "angle": 250
+        "name": "Molntjänster",
+        "url": "https://blogg.knowit.se/vagledning-om-inforande-av-molntjanster-inom-offentlig-verksamhet-msmd-air",
+        "distance": 0.25,
+        "angle": 120
+    },
+    {
+        "name": "Datahantering",
+        "url": "https://blogg.knowit.se/hantering-av-data-i-digitaliseringens-tidsalder",
+        "distance": 0.6,
+        "angle": 60
+    },
+    {
+        "name": "Bokslut",
+        "url": "https://blogg.knowit.se/closing-reporting-automation-av-kund-och-leverant%C3%B6rsreskontra",
+        "distance": 0.6,
+        "angle": 200
     }
 ]
